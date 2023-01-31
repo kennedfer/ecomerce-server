@@ -8,6 +8,11 @@ dotenv.config();
 const fastify = Fastify({ logger: true });
 const MONGO_URI = process.env["MONGO_URI"];
 
+fastify.register(cors, {
+  origin: "*",
+  methods: ["GET", "PUT", "POST"],
+});
+
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -195,11 +200,6 @@ fastify.post("/products/new", (req, res) => {
     res.code(200);
     res.send("Product added");
   });
-});
-
-fastify.register(cors, {
-  origin: "*",
-  methods: ["GET", "PUT", "POST"],
 });
 
 fastify.listen({ port: 3000 || process.env.PORT });
