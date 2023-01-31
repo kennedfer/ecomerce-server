@@ -99,7 +99,7 @@ fastify.get("/product/:id", (req, res) => {
 });
 
 fastify.get("/products", (req, res) => {
-  console.log("calica");
+  console.log("calica port");
 
   Product.find({}, (err, allProducts) => {
     if (err) return res.send(err);
