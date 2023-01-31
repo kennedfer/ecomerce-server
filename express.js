@@ -1,18 +1,17 @@
-import Fastify from "fastify";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import cors from "@fastify/cors";
 import { User, Product, idToObjectId } from "./mongoose_utils.js";
+import Express from "express";
 dotenv.config();
 
-const fastify = Fastify({ logger: true });
+const app = Express();
 const MONGO_URI = process.env["MONGO_URI"];
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
-fastify.post("/user/login", (req, res) => {
+app.post("/user/login", (req, res) => {
   const bodyUser = req.body;
 
   User.findOne({ email: bodyUser.email }, (err, dbUser) => {
@@ -36,7 +35,7 @@ fastify.post("/user/login", (req, res) => {
   });
 });
 
-fastify.post("/user/signup", (req, res) => {
+app.post("/user/signup", (req, res) => {
   const bodyUser = req.body;
   User.findOne({ email: bodyUser.email }, (err, dbUser) => {
     if (err) return res.send({ msg: err });
@@ -63,7 +62,7 @@ fastify.post("/user/signup", (req, res) => {
   });
 });
 
-fastify.get("/user/:id/logged", (req, res) => {
+app.get("/user/:id/logged", (req, res) => {
   const id = idToObjectId(req.params.id);
   User.findById(id, (err, dbUser) => {
     if (err) return res.send(err);
@@ -73,7 +72,7 @@ fastify.get("/user/:id/logged", (req, res) => {
   });
 });
 
-fastify.get("/user/:id", (req, res) => {
+app.get("/user/:id", (req, res) => {
   const id = idToObjectId(req.params.id);
   User.findById(id, (err, dbUser) => {
     if (err) return res.send(err);
@@ -84,7 +83,7 @@ fastify.get("/user/:id", (req, res) => {
   });
 });
 
-fastify.get("/product/:id", (req, res) => {
+app.get("/product/:id", (req, res) => {
   const id = idToObjectId(req.params.id);
   Product.findById(id, (err, product) => {
     if (err) return res.send(err);
@@ -94,7 +93,7 @@ fastify.get("/product/:id", (req, res) => {
   });
 });
 
-fastify.get("/products", (req, res) => {
+app.get("/products", (req, res) => {
   console.log("calica");
 
   //!Change to produucts
@@ -106,7 +105,7 @@ fastify.get("/products", (req, res) => {
   });
 });
 
-fastify.post("/user/:id/cart/add", (req, res) => {
+app.post("/user/:id/cart/add", (req, res) => {
   const product = req.body;
   const id = idToObjectId(req.params.id);
   User.findById(id, (err, dbUser) => {
@@ -128,7 +127,7 @@ fastify.post("/user/:id/cart/add", (req, res) => {
   });
 });
 
-fastify.post("/user/:id/cart/remove", (req, res) => {
+app.post("/user/:id/cart/remove", (req, res) => {
   // const product = req.body;
   const productIndex = req.body.index;
   const id = idToObjectId(req.params.id);
@@ -147,7 +146,7 @@ fastify.post("/user/:id/cart/remove", (req, res) => {
   });
 });
 
-fastify.post("/user/:id/cart/checkout", (req, res) => {
+app.post("/user/:id/cart/checkout", (req, res) => {
   // const product = req.body;
   const productsIndex = req.body.productsList;
   const id = idToObjectId(req.params.id);
@@ -173,7 +172,7 @@ fastify.post("/user/:id/cart/checkout", (req, res) => {
   });
 });
 
-fastify.post("/products/new", (req, res) => {
+app.post("/products/new", (req, res) => {
   const bodyProduct = req.body;
   Product.findOne({ name: bodyProduct.name }, (err, dbProduct) => {
     if (err) return res.send({ msg: err });
@@ -199,9 +198,11 @@ fastify.post("/products/new", (req, res) => {
   });
 });
 
-fastify.register(cors, {
-  origin: "*",
-  methods: ["GET", "PUT", "POST"],
-});
+// app.register(cors, {
+//   origin: "*",
+//   methods: ["GET", "PUT", "POST"],
+// });
 
-fastify.listen({ port: 3000 || process.env.PORT });
+app.listen({ port: 3000 || process.env.PORT }, ()=>{
+    console.log("Server is running...");
+});
