@@ -203,11 +203,12 @@ fastify.post('/products/new', (req, res)=>{
 
 const start = async () => {
     try {
-        await fastify.register(cors, { 
+        fastify.register(cors, { 
             origin: '*',
             methods:['GET', 'PUT', 'POST'],
         });
-        await fastify.listen({ port: (3000 || process.env.PORT) })
+        
+        fastify.listen({ port: (3000 || process.env.PORT) })
     } catch (err) {
       fastify.log.error(err)
       process.exit(1)
