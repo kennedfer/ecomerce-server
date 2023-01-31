@@ -1,0 +1,64 @@
+POST http://127.0.0.1:3000/user/signup HTTP/1.1
+content-type: application/json
+
+{
+    "email": "kenis@gmail.com",
+    "password": "kenis",
+    "name":"kenis",
+    "logged":"false",
+    "cart":[]
+}
+
+####
+POST http://127.0.0.1:3000/user/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "kenis@gmail.com",
+    "password": "kenis"
+}
+
+#####
+GET http://127.0.0.1:3000/user/63d30cbd1c6fbdbf5f81f8fd/cart HTTP/1.1
+#####
+GET  http://127.0.0.1:3000/products/63d30cbd1c6fbdbf5f81f8fd HTTP/1.1
+
+//get all porducts to render
+#####
+GET http://127.0.0.1:3000/products HTTP/1.1
+
+//add to cart
+####
+POST http://127.0.0.1:3000/user/63d30cbd1c6fbdbf5f81f8fd/cart/add HTTP/1.1
+content-type: application/json
+
+{
+    "id": "63d30cbd1c6fbdbf5f81f8fd",
+    "name":"blusa", 
+    "quantity": "10",
+    "price":"200"
+}
+
+//remove from cart "63d3f7b397681f1e1acce67f"
+####
+POST http://127.0.0.1:3000/user/63d30cbd1c6fbdbf5f81f8fd/cart/remove HTTP/1.1
+content-type: application/json
+
+{
+    "index":0
+}
+
+//add to products
+####
+POST http://127.0.0.1:3000/products/new HTTP/1.1
+content-type: application/json
+
+{
+    "name":"boné preto",
+    "description": "boné simples",
+    "price": "10"
+}
+
+//get product by id
+#########
+GET  http://127.0.0.1:3000/product/63d3b5e67c8679306ef359bb HTTP/1.1
