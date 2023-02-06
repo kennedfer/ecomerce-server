@@ -19,7 +19,7 @@ content-type: application/json
 }
 
 #####
-GET http://127.0.0.1:3000/user/63d30cbd1c6fbdbf5f81f8fd/cart HTTP/1.1
+GET http://localhost:3000/api/user/63d30cbd1c6fbdbf5f81f8fd HTTP/1.1
 #####
 GET  http://127.0.0.1:3000/products/63d30cbd1c6fbdbf5f81f8fd HTTP/1.1
 
@@ -62,3 +62,6 @@ content-type: application/json
 //get product by id
 #########
 GET  http://127.0.0.1:3000/product/63d3b5e67c8679306ef359bb HTTP/1.1
+
+#####
+GET http://localhost:3000/api/products
